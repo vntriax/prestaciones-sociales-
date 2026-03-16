@@ -1,0 +1,179 @@
+!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Prestaciones - LOTT Venezuela</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <img src="" alt="Logo del Ente Público" id="header-logo" class="logo">
+                <div class="header-info">
+                    <h1 id="ente-nombre">Nombre del Ente Público</h1>
+                    <p id="ente-rif">RIF: G-00000000-0</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="personal.html">Gestión de Personal</a></li>
+                <li><a href="calculo.html" class="active">Cálculo de Prestaciones</a></li>
+                <li><a href="configuracion.html">Configuración del Ente</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="content-section">
+                <h2>Cálculo de Prestaciones Sociales</h2>
+
+                <div class="calculation-container">
+                    <div class="worker-selection">
+                        <h3>Seleccionar Trabajador</h3>
+                        <div class="form-group">
+                            <label for="trabajador-select">Buscar Trabajador:</label>
+                            <select id="trabajador-select" required>
+                                <option value="">-- Seleccione un trabajador --</option>
+                                <!-- Se llenará dinámicamente -->
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="btn-cargar-trabajador">Cargar Datos</button>
+                    </div>
+
+                    <div class="worker-info-display" id="worker-info-display" style="display: none;">
+                        <h3>Información del Trabajador</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <strong>Cédula:</strong>
+                                <span id="info-cedula"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Nombre:</strong>
+                                <span id="info-nombre"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Cargo:</strong>
+                                <span id="info-cargo"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Fecha de Ingreso:</strong>
+                                <span id="info-ingreso"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Salario Base:</strong>
+                                <span id="info-salario"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Tiempo de Servicio:</strong>
+                                <span id="info-tiempo"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calculation-form" id="calculation-form" style="display: none;">
+                        <h3>Parámetros de Cálculo</h3>
+                        <form id="prestaciones-form" class="data-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tipo-calculo">Tipo de Cálculo:</label>
+                                    <select id="tipo-calculo" required>
+                                        <option value="activo">Trabajador Activo (Retiro Parcial)</option>
+                                        <option value="egreso">Por Egreso/Retiro</option>
+                                        <option value="vacacional">Bono Vacacional</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fecha-calculo">Fecha de Cálculo:</label>
+                                    <input type="date" id="fecha-calculo" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="salario-integral">Salario Integral (Bs.):</label>
+                                    <input type="number" id="salario-integral" step="0.01" min="0" placeholder="Se calcula automáticamente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bono-alimentacion">Bono de Alimentación (Bs.):</label>
+                                    <input type="number" id="bono-alimentacion" step="0.01" min="0" placeholder="Monto mensual">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dias-vacaciones">Días de Vacaciones:</label>
+                                    <input type="number" id="dias-vacaciones" min="0" max="30" value="15">
+                                </div>
+                                <div class="form-group">
+                                    <label for="otros-conceptos">Otros Conceptos Salariales:</label>
+                                    <input type="text" id="otros-conceptos" placeholder="Comisiones, horas extras, etc.">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-success" id="btn-calcular">Calcular Prestaciones</button>
+                                <button type="button" class="btn btn-secondary" id="btn-imprimir">Imprimir Reporte</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="results-container" id="results-container" style="display: none;">
+                    <h3>Resultado del Cálculo</h3>
+                    <div class="results-table">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Fórmula LOTT</th>
+                                    <th>Monto (Bs.)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-resultados">
+                                <!-- Resultados dinámicos -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td colspan="2"><strong>Total a Pagar</strong></td>
+                                    <td><strong id="total-prestaciones">0.00</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="calculation-details">
+                        <h4>Detalle del Cálculo según LOTT</h4>
+                        <div class="detail-item">
+                            <strong>Antigüedad:</strong>
+                            <p id="detalle-antiguedad"></p>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Salario Integral:</strong>
+                            <p id="detalle-salario-integral"></p>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Intereses sobre Prestaciones:</strong>
+                            <p id="detalle-intereses"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Sistema de Prestaciones Sociales - Basado en LOTT Venezuela</p>
+            <p>Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
