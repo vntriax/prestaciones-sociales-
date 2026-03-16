@@ -75,7 +75,7 @@
                             <label for="fecha-calculo">Fecha de Cálculo *</label>
                             <input type="date" id="fecha-calculo" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="motivo">Motivo de Liquidación</label>
                             <select id="motivo">
@@ -87,30 +87,30 @@
                                 <option value="consulta">Solo Consulta</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="salario-integral">Salario Integral Mensual (Bs.)</label>
                             <input type="number" id="salario-integral" step="0.01" min="0" placeholder="Se calcula automáticamente">
                             <small>Dejar en 0 para cálculo automático</small>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="dias-vacaciones">Días de Vacaciones Pendientes</label>
                             <input type="number" id="dias-vacaciones" min="0" value="0">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="dias-utilidades">Días de Utilidades Pendientes</label>
                             <input type="number" id="dias-utilidades" min="0" value="0">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="tasa-intereses">Tasa de Interés Anual (%)</label>
                             <input type="number" id="tasa-intereses" step="0.01" value="12" min="0">
                             <small>Tasa para cálculo de intereses</small>
                         </div>
                     </div>
-                    
+
                     <button type="button" class="btn btn-primary btn-calcular" id="btn-calcular">🧮 Calcular Prestaciones</button>
                 </div>
             </div>
@@ -118,7 +118,7 @@
             <!-- Resultados -->
             <div id="resultados-section" class="resultados-section" style="display: none;">
                 <h2>📊 Resultados del Cálculo</h2>
-                
+
                 <div class="resultados-grid">
                     <!-- Conceptos -->
                     <div class="card resultados-card">

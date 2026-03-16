@@ -33,43 +33,43 @@
                 <h2 id="form-title">➕ Nuevo Trabajador</h2>
                 <form id="trabajador-form" class="data-form">
                     <input type="hidden" id="trabajador-id">
-                    
+
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="cedula">Cédula *</label>
                             <input type="text" id="cedula" required placeholder="V-12345678">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="nombre">Nombre Completo *</label>
                             <input type="text" id="nombre" required placeholder="Nombre y Apellido">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="fecha-nacimiento">Fecha de Nacimiento *</label>
                             <input type="date" id="fecha-nacimiento" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="fecha-ingreso">Fecha de Ingreso *</label>
                             <input type="date" id="fecha-ingreso" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="cargo">Cargo *</label>
                             <input type="text" id="cargo" required placeholder="Ej: Analista Administrativo">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="departamento">Departamento/Unidad</label>
                             <input type="text" id="departamento" placeholder="Ej: Recursos Humanos">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="salario-base">Salario Base Mensual (Bs.) *</label>
                             <input type="number" id="salario-base" step="0.01" min="0" required placeholder="0.00">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="tipo-personal">Tipo de Personal *</label>
                             <select id="tipo-personal" required>
@@ -80,7 +80,7 @@
                                 <option value="eventual">Eventual</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="estado">Estado *</label>
                             <select id="estado" required>
@@ -92,7 +92,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary" id="btn-guardar">💾 Guardar</button>
                         <button type="button" class="btn btn-outline" id="btn-cancelar" style="display: none;">❌ Cancelar</button>
@@ -108,7 +108,7 @@
                         <input type="text" id="buscador" placeholder="🔍 Buscar por cédula, nombre o cargo...">
                     </div>
                 </div>
-                
+
                 <div class="table-container">
                     <table class="data-table">
                         <thead>
@@ -130,7 +130,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="table-footer">
                     <span id="total-registros">Total: 0 registros</span>
                 </div>

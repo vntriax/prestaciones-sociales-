@@ -135,7 +135,7 @@ const Utils = {
     calculateServiceTime: function(fechaIngreso, fechaFin) {
         const inicio = new Date(fechaIngreso);
         const fin = fechaFin ? new Date(fechaFin) : new Date();
-        
+
         let years = fin.getFullYear() - inicio.getFullYear();
         let months = fin.getMonth() - inicio.getMonth();
         let days = fin.getDate() - inicio.getDate();
@@ -182,10 +182,10 @@ const CalculadoraLOTT = {
         // 30 días por cada año de servicio o fracción superior a 6 meses
         const years = tiempoServicio.years;
         const months = tiempoServicio.months;
-        
+
         // Calcular días acumulados
         let diasAcumulados = years * 30;
-        
+
         // Si la fracción es mayor a 6 meses, se agrega otro mes
         if (months > 6) {
             diasAcumulados += 30;
@@ -196,7 +196,7 @@ const CalculadoraLOTT = {
 
         // Calcular monto: (salario integral * días acumulados) / 30
         const monto = (salarioIntegral * diasAcumulados) / 30;
-        
+
         return {
             diasAcumulados,
             monto,
@@ -209,10 +209,10 @@ const CalculadoraLOTT = {
         // Tasa fija más 2 puntos porcentuales sobre la tasa activa bancaria
         const tasaAjustada = tasaAnual + 2;
         const anos = tiempoServicio.totalDays / 365;
-        
+
         // Interés simple anual
         const interes = prestaciones * (tasaAjustada / 100) * anos;
-        
+
         return {
             monto: interes,
             tasa: tasaAjustada,
@@ -227,10 +227,10 @@ const CalculadoraLOTT = {
         if (aniosServicio > 1) {
             diasAdicionales = (aniosServicio - 1) * 7;
         }
-        
+
         const diasTotales = diasVacaciones + diasAdicionales;
         const monto = (salarioBase * diasTotales) / 30;
-        
+
         return {
             diasVacaciones: diasVacaciones,
             diasAdicionales: diasAdicionales,
@@ -245,7 +245,7 @@ const CalculadoraLOTT = {
         // Mínimo 15 días, máximo 120 días de salario
         const diasProporcionales = (salarioBase * diasTrabajados) / diasAnio;
         const diasGarantizados = Math.max(15, diasProporcionales);
-        
+
         return {
             dias: Math.min(120, diasGarantizados),
             monto: salarioBase * (Math.min(120, diasGarantizados) / 30),
@@ -257,7 +257,7 @@ const CalculadoraLOTT = {
     calcularPrestacionesCompletas: function(trabajador, params) {
         const fechaCalculo = params.fechaCalculo || new Date().toISOString();
         const tiempoServicio = Utils.calculateServiceTime(trabajador.fechaIngreso, fechaCalculo);
-        
+
         const salarioIntegral = this.calcularSalarioIntegral(
             parseFloat(trabajador.salario),
             parseFloat(params.otrasBonificaciones || 0)
@@ -265,9 +265,9 @@ const CalculadoraLOTT = {
 
         const prestaciones = this.calcularPrestacionesAntiguedad(salarioIntegral, tiempoServicio);
         const intereses = this.calcularIntereses(prestaciones.monto, params.tasaIntereses || 12, tiempoServicio);
-        
+
         let total = prestaciones.monto;
-        
+
         // Si es por egreso, se incluyen intereses
         if (params.tipoCalculo === 'egreso') {
             total += intereses.monto;
@@ -299,7 +299,7 @@ const UI = {
     // Actualizar header con datos del ente
     updateHeader: function() {
         const ente = DB.getEnte();
-        
+
         const headerLogo = document.getElementById('header-logo');
         const headerNombre = document.getElementById('ente-nombre');
         const headerRif = document.getElementById('ente-rif');
@@ -339,9 +339,9 @@ const UI = {
             z-index: 10000;
             animation: slideIn 0.3s ease;
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => notification.remove(), 300);
@@ -415,7 +415,7 @@ function initPersonalPage() {
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const id = document.getElementById('trabajador-id').value;
             const trabajadorData = {
                 cedula: document.getElementById('cedula').value,
@@ -463,7 +463,7 @@ function initPersonalPage() {
 
         // Filtrar por búsqueda
         if (busqueda) {
-            filtrados = filtrados.filter(t => 
+            filtrados = filtrados.filter(t =>
                 t.cedula.toLowerCase().includes(busqueda) ||
                 t.nombre.toLowerCase().includes(busqueda)
             );
@@ -506,7 +506,7 @@ function initPersonalPage() {
             document.getElementById('departamento').value = trabajador.departamento;
             document.getElementById('estado').value = trabajador.estado;
             document.getElementById('fecha-egreso').value = trabajador.fechaEgreso || '';
-            
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
@@ -574,7 +574,7 @@ function initCalculoPage() {
                 document.getElementById('info-salario').textContent = Utils.formatMoney(trabajador.salario);
 
                 const tiempo = Utils.calculateServiceTime(trabajador.fechaIngreso);
-                document.getElementById('info-tiempo').textContent = 
+                document.getElementById('info-tiempo').textContent =
                     `${tiempo.years} años, ${tiempo.months} meses, ${tiempo.days} días`;
 
                 // Establecer fecha de cálculo como hoy
@@ -628,13 +628,13 @@ function initCalculoPage() {
             document.getElementById('total-prestaciones').textContent = Utils.formatMoney(resultado.total);
 
             // Mostrar detalles
-            document.getElementById('detalle-antiguedad').textContent = 
+            document.getElementById('detalle-antiguedad').textContent =
                 `${resultado.tiempoServicio.years} años, ${resultado.tiempoServicio.months} meses y ${resultado.tiempoServicio.days} días de servicio`;
-            
-            document.getElementById('detalle-salario-integral').textContent = 
+
+            document.getElementById('detalle-salario-integral').textContent =
                 `Bs. ${Utils.formatMoney(resultado.salarioIntegral)} (incluye alícuotas de utilidades y bono vacacional)`;
-            
-            document.getElementById('detalle-intereses').textContent = 
+
+            document.getElementById('detalle-intereses').textContent =
                 `Tasa aplicada: ${(resultado.intereses.tasa).toFixed(2)}% anual durante ${resultado.tiempoServicio.totalDays} días`;
 
             // Guardar cálculo
@@ -664,7 +664,7 @@ function initConfigPage() {
 
     // Cargar datos actuales
     const ente = DB.getEnte();
-    
+
     if (form) {
         document.getElementById('ente-nombre-config').value = ente.nombre;
         document.getElementById('ente-rif-config').value = ente.rif;
