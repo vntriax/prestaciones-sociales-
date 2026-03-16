@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Prestaciones Sociales - LOTT Venezuela</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img id="sidebar-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40'%3E🏛️%3C/text%3E%3C/svg%3E" alt="Logo Ente Público">
+                <h2 id="sidebar-ente">Ente Público</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="active">📊 Dashboard</a>
+                <a href="personal.html">👥 Personal</a>
+                <a href="calculo.html">🧮 Calculadora LOTT</a>
+                <a href="configuracion.html">⚙️ Configuración</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Dashboard - Sistema de Prestaciones Sociales</h1>
+                <p class="subtitle">Gestión según Ley Orgánica del Trabajo, Trabajadores y Trabajadoras (LOTT)</p>
+            </header>
+
+            <div class="dashboard-grid">
+                <div class="card stat-card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-content">
+                        <h3>Total Trabajadores</h3>
+                        <p class="stat-number" id="total-trabajadores">0</p>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-icon">📅</div>
+                    <div class="card-content">
+                        <h3>Antigüedad Promedio</h3>
+                        <p class="stat-number" id="antiguedad-promedio">0 años</p>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-content">
+                        <h3>Pasivo Laboral Estimado</h3>
+                        <p class="stat-number" id="pasivo-laboral">$0.00</p>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-icon">🎂</div>
+                    <div class="card-content">
+                        <h3>Cumpleaños este Mes</h3>
+                        <p class="stat-number" id="cumpleanos-mes">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h2>Últimos Trabajadores Registrados</h2>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>Cargo</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Salario Base</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-recientes">
+                            <tr>
+                                <td colspan="5" class="no-data">No hay trabajadores registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h2>Acciones Rápidas</h2>
+                <div class="action-buttons">
+                    <a href="personal.html" class="btn btn-primary">➕ Nuevo Trabajador</a>
+                    <a href="calculo.html" class="btn btn-secondary">🧮 Calcular Prestaciones</a>
+                    <a href="configuracion.html" class="btn btn-outline">⚙️ Configurar Ente</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+    </script>
+</body>
+</html>
