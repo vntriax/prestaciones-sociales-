@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Prestaciones - LOTT Venezuela</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img id="sidebar-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40'%3E🏛️%3C/text%3E%3C/svg%3E" alt="Logo Ente Público">
+                <h2 id="sidebar-ente">Ente Público</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">📊 Dashboard</a>
+                <a href="personal.html">👥 Personal</a>
+                <a href="calculo.html" class="active">🧮 Calculadora LOTT</a>
+                <a href="configuracion.html">⚙️ Configuración</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Calculadora de Prestaciones Sociales</h1>
+                <p class="subtitle">Cálculo según Ley Orgánica del Trabajo (LOTT) Venezuela</p>
+            </header>
+
+            <div class="calculadora-grid">
+                <!-- Selección de Trabajador -->
+                <div class="card selection-card">
+                    <h2>👤 Seleccionar Trabajador</h2>
+                    <div class="form-group">
+                        <label for="select-trabajador">Buscar trabajador:</label>
+                        <select id="select-trabajador">
+                            <option value="">-- Seleccione un trabajador --</option>
+                        </select>
+                    </div>
+                    <div id="info-trabajador" class="trabajador-info" style="display: none;">
+                        <div class="info-row">
+                            <span class="info-label">Nombre:</span>
+                            <span class="info-value" id="info-nombre"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Cédula:</span>
+                            <span class="info-value" id="info-cedula"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Cargo:</span>
+                            <span class="info-value" id="info-cargo"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">F. Ingreso:</span>
+                            <span class="info-value" id="info-ingreso"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Antigüedad:</span>
+                            <span class="info-value" id="info-antiguedad"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Salario Base:</span>
+                            <span class="info-value" id="info-salario"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parámetros de Cálculo -->
+                <div class="card params-card">
+                    <h2>⚙️ Parámetros de Cálculo</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fecha-calculo">Fecha de Cálculo *</label>
+                            <input type="date" id="fecha-calculo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="motivo">Motivo de Liquidación</label>
+                            <select id="motivo">
+                                <option value="renuncia">Renuncia Voluntaria</option>
+                                <option value="despido">Despido Injustificado</option>
+                                <option value="jubilacion">Jubilación</option>
+                                <option value="retiro">Retiro</option>
+                                <option value="muerte">Fallecimiento</option>
+                                <option value="consulta">Solo Consulta</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="salario-integral">Salario Integral Mensual (Bs.)</label>
+                            <input type="number" id="salario-integral" step="0.01" min="0" placeholder="Se calcula automáticamente">
+                            <small>Dejar en 0 para cálculo automático</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dias-vacaciones">Días de Vacaciones Pendientes</label>
+                            <input type="number" id="dias-vacaciones" min="0" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dias-utilidades">Días de Utilidades Pendientes</label>
+                            <input type="number" id="dias-utilidades" min="0" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tasa-intereses">Tasa de Interés Anual (%)</label>
+                            <input type="number" id="tasa-intereses" step="0.01" value="12" min="0">
+                            <small>Tasa para cálculo de intereses</small>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary btn-calcular" id="btn-calcular">🧮 Calcular Prestaciones</button>
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div id="resultados-section" class="resultados-section" style="display: none;">
+                <h2>📊 Resultados del Cálculo</h2>
+                
+                <div class="resultados-grid">
+                    <!-- Conceptos -->
+                    <div class="card resultados-card">
+                        <h3>Conceptos a Pagar</h3>
+                        <table class="resultados-table">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Días/Años</th>
+                                    <th>Monto (Bs.)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-conceptos">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Totales -->
+                    <div class="card totales-card">
+                        <h3>💰 Totales</h3>
+                        <div class="totales-list">
+                            <div class="total-row">
+                                <span>Prestaciones de Antigüedad:</span>
+                                <span class="total-value" id="total-prestaciones">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Intereses sobre Prestaciones:</span>
+                                <span class="total-value" id="total-intereses">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Vacaciones:</span>
+                                <span class="total-value" id="total-vacaciones">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Bono Vacacional:</span>
+                                <span class="total-value" id="total-bono-vacacional">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Utilidades:</span>
+                                <span class="total-value" id="total-utilidades">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row subtotal">
+                                <span>SUBTOTAL:</span>
+                                <span class="total-value" id="subtotal">Bs. 0.00</span>
+                            </div>
+                            <div class="total-row total-final">
+                                <span>TOTAL A PAGAR:</span>
+                                <span class="total-value" id="total-final">Bs. 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Legal -->
+                <div class="card resumen-card">
+                    <h3>📜 Fundamentación Legal (LOTT)</h3>
+                    <div class="resumen-legal">
+                        <p><strong>Artículo 142:</strong> Prestaciones de antigüedad equivalentes a 5 días por cada mes de servicio o fracción superior a 15 días.</p>
+                        <p><strong>Artículo 142:</strong> Adicional de 2 días por año a partir del segundo año (tope 30 días).</p>
+                        <p><strong>Artículo 143:</strong> Intereses sobre prestaciones calculados anualmente.</p>
+                        <p><strong>Artículo 223:</strong> Vacaciones anuales remuneradas de 15 días hábiles + 1 día adicional por año (tope 15 días adicionales).</p>
+                        <p><strong>Artículo 174:</strong> Bono vacacional equivalente a 7 días + 1 día adicional por año (tope 7 días adicionales).</p>
+                        <p><strong>Artículo 174:</strong> Utilidades mínimas de 30 días + 2 días por año (tope 120 días).</p>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones-resultados">
+                    <button class="btn btn-secondary" id="btn-imprimir">🖨️ Imprimir</button>
+                    <button class="btn btn-outline" id="btn-nuevo-calculo">🔄 Nuevo Cálculo</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initCalculadoraPage();
+        });
+    </script>
+</body>
+</html>
