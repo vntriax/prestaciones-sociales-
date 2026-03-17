@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - LOTT Venezuela</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img id="sidebar-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40'%3E🏛️%3C/text%3E%3C/svg%3E" alt="Logo Ente Público">
+                <h2 id="sidebar-ente">Ente Público</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">📊 Dashboard</a>
+                <a href="personal.html">👥 Personal</a>
+                <a href="calculo.html">🧮 Calculadora LOTT</a>
+                <a href="configuracion.html" class="active">⚙️ Configuración</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Configuración del Ente Público</h1>
+                <p class="subtitle">Datos institucionales y parámetros del sistema</p>
+            </header>
+
+            <div class="config-grid">
+                <!-- Datos del Ente -->
+                <div class="card config-card">
+                    <h2>🏛️ Datos del Ente Público</h2>
+                    <form id="ente-form" class="data-form">
+                        <div class="form-group logo-group">
+                            <label>Logo Institucional</label>
+                            <div class="logo-preview">
+                                <img id="logo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40'%3E🏛️%3C/text%3E%3C/svg%3E" alt="Vista previa del logo">
+                            </div>
+                            <div class="logo-upload">
+                                <input type="file" id="logo-input" accept="image/*">
+                                <label for="logo-input" class="btn btn-outline">📁 Seleccionar Imagen</label>
+                                <button type="button" class="btn btn-danger btn-sm" id="btn-eliminar-logo">🗑️ Eliminar</button>
+                            </div>
+                            <small>Formatos aceptados: JPG, PNG, SVG. Tamaño máximo: 2MB</small>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="nombre-ente">Nombre del Ente Público *</label>
+                                <input type="text" id="nombre-ente" required placeholder="Ej: Ministerio de XXXXX">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rif">RIF *</label>
+                                <input type="text" id="rif" required placeholder="G-12345678-9">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="tel" id="telefono" placeholder="(0212) 123-4567">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="direccion">Dirección Fiscal</label>
+                                <textarea id="direccion" rows="2" placeholder="Dirección completa del ente"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" id="email" placeholder="contacto@ente.gob.ve">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pagina-web">Página Web</label>
+                                <input type="url" id="pagina-web" placeholder="https://www.ente.gob.ve">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Guardar Configuración</button>
+                            <button type="button" class="btn btn-outline" id="btn-resetear">🔄 Restaurar Valores</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Parámetros LOTT -->
+                <div class="card config-card">
+                    <h2>📋 Parámetros de Cálculo LOTT</h2>
+                    <form id="parametros-form" class="data-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="dias-vacaciones-base">Días Base Vacaciones *</label>
+                                <input type="number" id="dias-vacaciones-base" min="1" value="15" required>
+                                <small>Art. 223 LOTT: 15 días hábiles mínimos</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dias-bono-vacacional-base">Días Base Bono Vacacional *</label>
+                                <input type="number" id="dias-bono-vacacional-base" min="1" value="7" required>
+                                <small>Art. 174 LOTT: 7 días mínimos</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dias-utilidades-base">Días Base Utilidades *</label>
+                                <input type="number" id="dias-utilidades-base" min="1" value="30" required>
+                                <small>Art. 174 LOTT: 30 días mínimos</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tasa-interes-legal">Tasa de Interés Legal (%)</label>
+                                <input type="number" id="tasa-interes-legal" step="0.01" value="12" min="0">
+                                <small>Tasa anual para cálculo de intereses</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tope-dias-vacaciones">Tope Días Vacaciones Adicionales</label>
+                                <input type="number" id="tope-dias-vacaciones" min="0" value="15">
+                                <small>Máximo días adicionales por antigüedad</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tope-dias-bono">Tope Días Bono Adicionales</label>
+                                <input type="number" id="tope-dias-bono" min="0" value="7">
+                                <small>Máximo días adicionales por antigüedad</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tope-dias-utilidades">Tope Días Utilidades</label>
+                                <input type="number" id="tope-dias-utilidades" min="0" value="120">
+                                <small>Máximo total días utilidades</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tope-prestaciones">Tope Prestaciones (días)</label>
+                                <input type="number" id="tope-prestaciones" min="0" value="30">
+                                <small>Tope de 30 días según Art. 142</small>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Guardar Parámetros</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Información del Sistema -->
+                <div class="card config-card">
+                    <h2>ℹ️ Información del Sistema</h2>
+                    <div class="info-sistema">
+                        <div class="info-row">
+                            <span class="info-label">Versión:</span>
+                            <span class="info-value">1.0.0</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Última Actualización:</span>
+                            <span class="info-value" id="fecha-actualizacion">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Total Trabajadores:</span>
+                            <span class="info-value" id="info-total-trabajadores">0</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Almacenamiento:</span>
+                            <span class="info-value">LocalStorage del Navegador</span>
+                        </div>
+
+                        <div class="acciones-sistema">
+                            <h3>🔧 Acciones de Mantenimiento</h3>
+                            <div class="action-buttons">
+                                <button class="btn btn-outline" id="btn-exportar">📤 Exportar Datos</button>
+                                <button class="btn btn-outline" id="btn-importar">📥 Importar Datos</button>
+                                <input type="file" id="import-file" accept=".json" style="display: none;">
+                                <button class="btn btn-danger" id="btn-limpiar-todo">⚠️ Borrar Todos los Datos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initConfiguracionPage();
+        });
+    </script>
+</body>
+</html>

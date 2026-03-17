@@ -1,179 +1,160 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo de Prestaciones - LOTT Venezuela</title>
+    <title>Gestión de Personal - LOTT Venezuela</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <img src="" alt="Logo del Ente Público" id="header-logo" class="logo">
-                <div class="header-info">
-                    <h1 id="ente-nombre">Nombre del Ente Público</h1>
-                    <p id="ente-rif">RIF: G-00000000-0</p>
-                </div>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img id="sidebar-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40'%3E🏛️%3C/text%3E%3C/svg%3E" alt="Logo Ente Público">
+                <h2 id="sidebar-ente">Ente Público</h2>
             </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="navigation">
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="personal.html">Gestión de Personal</a></li>
-                <li><a href="calculo.html" class="active">Cálculo de Prestaciones</a></li>
-                <li><a href="configuracion.html">Configuración del Ente</a></li>
-            </ul>
-        </nav>
+            <nav class="nav-menu">
+                <a href="index.html">📊 Dashboard</a>
+                <a href="personal.html" class="active">👥 Personal</a>
+                <a href="calculo.html">🧮 Calculadora LOTT</a>
+                <a href="configuracion.html">⚙️ Configuración</a>
+            </nav>
+        </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <section class="content-section">
-                <h2>Cálculo de Prestaciones Sociales</h2>
+            <header class="header">
+                <h1>Gestión de Personal</h1>
+                <p class="subtitle">Registro y administración de trabajadores</p>
+            </header>
 
-                <div class="calculation-container">
-                    <div class="worker-selection">
-                        <h3>Seleccionar Trabajador</h3>
+            <div class="form-section">
+                <h2 id="form-title">➕ Nuevo Trabajador</h2>
+                <form id="trabajador-form" class="data-form">
+                    <input type="hidden" id="trabajador-id">
+
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="trabajador-select">Buscar Trabajador:</label>
-                            <select id="trabajador-select" required>
-                                <option value="">-- Seleccione un trabajador --</option>
-                                <!-- Se llenará dinámicamente -->
+                            <label for="cedula">Cédula *</label>
+                            <input type="text" id="cedula" required placeholder="V-12345678">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo *</label>
+                            <input type="text" id="nombre" required placeholder="Nombre y Apellido">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha-nacimiento">Fecha de Nacimiento *</label>
+                            <input type="date" id="fecha-nacimiento" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha-ingreso">Fecha de Ingreso *</label>
+                            <input type="date" id="fecha-ingreso" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cargo">Cargo *</label>
+                            <input type="text" id="cargo" required placeholder="Ej: Analista Administrativo">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="departamento">Departamento/Unidad</label>
+                            <input type="text" id="departamento" placeholder="Ej: Recursos Humanos">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="salario-base">Salario Base Mensual (Bs.) *</label>
+                            <input type="number" id="salario-base" step="0.01" min="0" required placeholder="0.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo-personal">Tipo de Personal *</label>
+                            <select id="tipo-personal" required>
+                                <option value="">Seleccione...</option>
+                                <option value="ordinario">Ordinario</option>
+                                <option value="temporal">Temporal</option>
+                                <option value="contratado">Contratado</option>
+                                <option value="eventual">Eventual</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" id="btn-cargar-trabajador">Cargar Datos</button>
-                    </div>
 
-                    <div class="worker-info-display" id="worker-info-display" style="display: none;">
-                        <h3>Información del Trabajador</h3>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <strong>Cédula:</strong>
-                                <span id="info-cedula"></span>
-                            </div>
-                            <div class="info-item">
-                                <strong>Nombre:</strong>
-                                <span id="info-nombre"></span>
-                            </div>
-                            <div class="info-item">
-                                <strong>Cargo:</strong>
-                                <span id="info-cargo"></span>
-                            </div>
-                            <div class="info-item">
-                                <strong>Fecha de Ingreso:</strong>
-                                <span id="info-ingreso"></span>
-                            </div>
-                            <div class="info-item">
-                                <strong>Salario Base:</strong>
-                                <span id="info-salario"></span>
-                            </div>
-                            <div class="info-item">
-                                <strong>Tiempo de Servicio:</strong>
-                                <span id="info-tiempo"></span>
-                            </div>
+                        <div class="form-group">
+                            <label for="estado">Estado *</label>
+                            <select id="estado" required>
+                                <option value="activo">Activo</option>
+                                <option value="vacaciones">De Vacaciones</option>
+                                <option value="licencia">De Licencia</option>
+                                <option value="suspendido">Suspendido</option>
+                                <option value="egresado">Egresado</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="calculation-form" id="calculation-form" style="display: none;">
-                        <h3>Parámetros de Cálculo</h3>
-                        <form id="prestaciones-form" class="data-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="tipo-calculo">Tipo de Cálculo:</label>
-                                    <select id="tipo-calculo" required>
-                                        <option value="activo">Trabajador Activo (Retiro Parcial)</option>
-                                        <option value="egreso">Por Egreso/Retiro</option>
-                                        <option value="vacacional">Bono Vacacional</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="fecha-calculo">Fecha de Cálculo:</label>
-                                    <input type="date" id="fecha-calculo" required>
-                                </div>
-                            </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="btn-guardar">💾 Guardar</button>
+                        <button type="button" class="btn btn-outline" id="btn-cancelar" style="display: none;">❌ Cancelar</button>
+                        <button type="button" class="btn btn-secondary" id="btn-limpiar">🧹 Limpiar Formulario</button>
+                    </div>
+                </form>
+            </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="salario-integral">Salario Integral (Bs.):</label>
-                                    <input type="number" id="salario-integral" step="0.01" min="0" placeholder="Se calcula automáticamente">
-                                </div>
-                                <div class="form-group">
-                                    <label for="bono-alimentacion">Bono de Alimentación (Bs.):</label>
-                                    <input type="number" id="bono-alimentacion" step="0.01" min="0" placeholder="Monto mensual">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="dias-vacaciones">Días de Vacaciones:</label>
-                                    <input type="number" id="dias-vacaciones" min="0" max="30" value="15">
-                                </div>
-                                <div class="form-group">
-                                    <label for="otros-conceptos">Otros Conceptos Salariales:</label>
-                                    <input type="text" id="otros-conceptos" placeholder="Comisiones, horas extras, etc.">
-                                </div>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-success" id="btn-calcular">Calcular Prestaciones</button>
-                                <button type="button" class="btn btn-secondary" id="btn-imprimir">Imprimir Reporte</button>
-                            </div>
-                        </form>
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>📋 Listado de Trabajadores</h2>
+                    <div class="search-box">
+                        <input type="text" id="buscador" placeholder="🔍 Buscar por cédula, nombre o cargo...">
                     </div>
                 </div>
 
-                <div class="results-container" id="results-container" style="display: none;">
-                    <h3>Resultado del Cálculo</h3>
-                    <div class="results-table">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Concepto</th>
-                                    <th>Fórmula LOTT</th>
-                                    <th>Monto (Bs.)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-resultados">
-                                <!-- Resultados dinámicos -->
-                            </tbody>
-                            <tfoot>
-                                <tr class="total-row">
-                                    <td colspan="2"><strong>Total a Pagar</strong></td>
-                                    <td><strong id="total-prestaciones">0.00</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <div class="calculation-details">
-                        <h4>Detalle del Cálculo según LOTT</h4>
-                        <div class="detail-item">
-                            <strong>Antigüedad:</strong>
-                            <p id="detalle-antiguedad"></p>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Salario Integral:</strong>
-                            <p id="detalle-salario-integral"></p>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Intereses sobre Prestaciones:</strong>
-                            <p id="detalle-intereses"></p>
-                        </div>
-                    </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>Cargo</th>
+                                <th>F. Ingreso</th>
+                                <th>Antigüedad</th>
+                                <th>Salario</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-trabajadores">
+                            <tr>
+                                <td colspan="8" class="no-data">No hay trabajadores registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </section>
+
+                <div class="table-footer">
+                    <span id="total-registros">Total: 0 registros</span>
+                </div>
+            </div>
         </main>
+    </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2024 Sistema de Prestaciones Sociales - Basado en LOTT Venezuela</p>
-            <p>Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras</p>
-        </footer>
+    <!-- Modal Confirmación Eliminar -->
+    <div id="modal-confirm" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ Confirmar Eliminación</h3>
+            <p>¿Está seguro que desea eliminar este trabajador? Esta acción no se puede deshacer.</p>
+            <div class="modal-actions">
+                <button class="btn btn-danger" id="btn-confirmar-eliminar">🗑️ Eliminar</button>
+                <button class="btn btn-outline" id="btn-cancelar-modal">❌ Cancelar</button>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initPersonalPage();
+        });
+    </script>
 </body>
 </html>
