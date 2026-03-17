@@ -2,20 +2,32 @@
 // Aplicación JavaScript para gestión de personal y cálculo de prestaciones
 
 // ============================================
-// ALMACENAMIENTO DE DATOS (LocalStorage)
+// CONFIGURACIÓN DE LA API
+// ============================================
+
+const API_BASE_URL = window.location.origin + '/api';
+
+// ============================================
+// ALMACENAMIENTO DE DATOS (API REST con SQLite)
 // ============================================
 
 const DB = {
     // Obtener datos del ente público
-    getEnte: function() {
-        const data = localStorage.getItem('ente_publico');
-        return data ? JSON.parse(data) : this.getEnteDefault();
+    getEnte: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/ente`);
+            if (!response.ok) throw new Error('Error al obtener ente');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return this.getEnteDefault();
+        }
     },
 
     // Datos por defecto del ente
     getEnteDefault: function() {
         return {
-            nombre: 'Nombre del Ente Público',
+            nombre: 'Ente Público',
             rif: 'G-00000000-0',
             direccion: '',
             telefono: '',
@@ -32,69 +44,159 @@ const DB = {
     },
 
     // Guardar datos del ente
-    saveEnte: function(data) {
-        localStorage.setItem('ente_publico', JSON.stringify(data));
+    saveEnte: async function(data) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/ente/${data.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error('Error al guardar ente');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
     },
 
     // Obtener lista de trabajadores
-    getTrabajadores: function() {
-        const data = localStorage.getItem('trabajadores');
-        return data ? JSON.parse(data) : [];
-    },
-
-    // Guardar lista de trabajadores
-    saveTrabajadores: function(trabajadores) {
-        localStorage.setItem('trabajadores', JSON.stringify(trabajadores));
+    getTrabajadores: async function(filtros = {}) {
+        try {
+            const params = new URLSearchParams(filtros);
+            const response = await fetch(`${API_BASE_URL}/trabajadores?${params}`);
+            if (!response.ok) throw new Error('Error al obtener trabajadores');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
+        }
     },
 
     // Agregar trabajador
-    addTrabajador: function(trabajador) {
-        const trabajadores = this.getTrabajadores();
-        trabajador.id = Date.now().toString();
-        trabajador.fechaCreacion = new Date().toISOString();
-        trabajadores.push(trabajador);
-        this.saveTrabajadores(trabajadores);
-        return trabajador;
+    addTrabajador: async function(trabajador) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/trabajadores`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(trabajador)
+            });
+            if (!response.ok) throw new Error('Error al agregar trabajador');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
     },
 
     // Actualizar trabajador
-    updateTrabajador: function(id, data) {
-        const trabajadores = this.getTrabajadores();
-        const index = trabajadores.findIndex(t => t.id === id);
-        if (index !== -1) {
-            trabajadores[index] = { ...trabajadores[index], ...data };
-            this.saveTrabajadores(trabajadores);
-            return trabajadores[index];
+    updateTrabajador: async function(id, data) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/trabajadores/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error('Error al actualizar trabajador');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
         }
-        return null;
     },
 
     // Eliminar trabajador
-    deleteTrabajador: function(id) {
-        const trabajadores = this.getTrabajadores();
-        const filtered = trabajadores.filter(t => t.id !== id);
-        this.saveTrabajadores(filtered);
+    deleteTrabajador: async function(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/trabajadores/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) throw new Error('Error al eliminar trabajador');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
     },
 
     // Buscar trabajador por ID
-    getTrabajadorById: function(id) {
-        const trabajadores = this.getTrabajadores();
-        return trabajadores.find(t => t.id === id);
+    getTrabajadorById: async function(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/trabajadores/${id}`);
+            if (!response.ok) throw new Error('Error al obtener trabajador');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
     },
 
-    // Obtener cálculos guardados
-    getCalculos: function() {
-        const data = localStorage.getItem('calculos');
-        return data ? JSON.parse(data) : [];
+    // Obtener parámetros LOTT
+    getParametros: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/parametros`);
+            if (!response.ok) throw new Error('Error al obtener parámetros');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    },
+
+    // Guardar parámetros
+    saveParametros: async function(data) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/parametros/${data.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error('Error al guardar parámetros');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
     },
 
     // Guardar cálculo
-    saveCalculo: function(calculo) {
-        const calculos = this.getCalculos();
-        calculo.id = Date.now().toString();
-        calculo.fechaCalculo = new Date().toISOString();
-        calculos.push(calculo);
-        localStorage.setItem('calculos', JSON.stringify(calculos));
+    saveCalculo: async function(calculo) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/calculos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(calculo)
+            });
+            if (!response.ok) throw new Error('Error al guardar cálculo');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    },
+
+    // Obtener cálculos
+    getCalculos: async function(trabajador_id = null) {
+        try {
+            const params = trabajador_id ? `?trabajador_id=${trabajador_id}` : '';
+            const response = await fetch(`${API_BASE_URL}/calculos${params}`);
+            if (!response.ok) throw new Error('Error al obtener cálculos');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
+        }
+    },
+
+    // Obtener estadísticas del dashboard
+    getDashboardStats: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/dashboard/stats`);
+            if (!response.ok) throw new Error('Error al obtener estadísticas');
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
     }
 };
 
